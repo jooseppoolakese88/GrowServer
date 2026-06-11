@@ -356,6 +356,8 @@ export class Base {
       "utf-8",
     );
     this.items.wiki = JSON.parse(wikiFile) as ItemsInfo[];
+    logger.info(`Wiki loaded: ${this.items.wiki.length} items`);
+    logger.info(`First wiki item: ${JSON.stringify(this.items.wiki[0])}`);
 
     logger.info(`Items data hash: ${hash}`);
     logger.info("Successfully parsing items data");

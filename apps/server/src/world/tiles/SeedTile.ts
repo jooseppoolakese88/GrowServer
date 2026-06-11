@@ -12,6 +12,7 @@ import { ExtendBuffer } from "@growserver/utils";
 import { Tile } from "../Tile";
 import { Peer } from "../../core/Peer";
 import { ItemDefinition } from "grow-items";
+import {logger} from "@growserver/logger";
 
 export class SeedTile extends Tile {
   public extraType = TileExtraTypes.SEED;
@@ -66,8 +67,12 @@ export class SeedTile extends Tile {
     let spliceSuccessful = false;
 
     if (item.id! != this.data.fg) {
+      logger.info(`Wiki length: ${this.base.items.wiki.length}`);
+      logger.info(`item.id: ${item.id}, this.data.fg: ${this.data.fg}`);
+      logger.info(`item.id != this.data.fg: ${item.id! != this.data.fg}`);
       this.base.items.wiki.every((itemWiki) => {
         if (itemWiki.recipe && itemWiki.recipe.splice.length == 2) {
+          logger.info(`Checking recipe: ${JSON.stringify(itemWiki.recipe.splice)} against ${item.id! - 1} and ${this.data.fg! - 1}`);
           if (
             itemWiki.recipe.splice.includes(item.id! - 1) &&
             itemWiki.recipe.splice.includes(this.data.fg! - 1)

@@ -1,0 +1,13 @@
+import { Base } from "../../core/Base";
+import { Peer } from "../../core/Peer";
+
+export class OnUseDoorTutorial {
+  constructor(
+    public base: Base,
+    public peer: Peer,
+  ) {}
+
+  public async execute(action: Record<string, string>): Promise<void> {
+    this.peer.leaveWorld();
+  }
+}

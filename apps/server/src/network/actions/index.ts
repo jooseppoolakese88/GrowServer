@@ -14,6 +14,10 @@ import { Wrench } from "./Wrench";
 import { StoreBuy } from "./StoreBuy";
 import { StoreHandler } from "./StoreHandler";
 import { Info } from "./Info";
+import { NoOp } from "./noOp";
+import { OnUseDoorTutorial } from "./OnUseDoorTutorial";
+
+
 
 export const ActionMap: Record<
   string,
@@ -36,4 +40,12 @@ export const ActionMap: Record<
   ["buy"]:               StoreBuy,
   ["store"]:             StoreHandler,
   ["info"]:              Info,
+  ["on_use_door_tutorial"]: OnUseDoorTutorial,
+  ["setpos"]:               NoOp,
+  ["get_server_time"]:      NoOp,
+  ["ping"]:                 NoOp,
+  ["singing"]:              NoOp,
+  ["dance"]:                NoOp,
+  ["achievement"]:          NoOp,
+  
 };
