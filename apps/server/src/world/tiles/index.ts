@@ -43,14 +43,13 @@ const tileFrom = (
   data: TileData,
   itemType?: ActionTypes,
 ) => {
-  const type =
-    itemType ?? base.items.metadata.items.get(data.fg.toString())!.type!;
+  const item = base.items.metadata.items.get(data.fg as any);
+  const type = itemType ?? item?.type ?? ActionTypes.FOREGROUND; // fallback to normal tile
   try {
     const tile = new TileMap[type](base, world, data);
     return tile;
   } catch (e) {
     logger.debug(e);
-
     return new NormalTile(base, world, data);
   }
 };

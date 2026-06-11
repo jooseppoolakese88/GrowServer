@@ -16,7 +16,7 @@ import { Default } from "../world/generation/Default";
 import { Tile } from "../world/Tile";
 import { tileFrom } from "../world/tiles";
 import { ItemDefinition, ItemsDatMeta } from "grow-items";
-
+import logger from "@growserver/logger";
 export class World {
   public data: WorldData;
   public worldName;
@@ -149,6 +149,8 @@ ${peer.data.lastVisitedWorlds
     if (!this.base.cache.worlds.has(this.worldName)) {
       const world = await this.base.database.worlds.get(this.worldName);
       if (world) {
+        logger.info(`Loading world from DB: ${this.worldName}, blocks length: ${world.blocks?.length}`);
+        logger.info(`First 100 chars of blocks: ${world.blocks?.toString().slice(0, 100)}`);
         this.data = {
           name:        world.name,
           width:       world.width,
@@ -551,7 +553,7 @@ ${peer.data.lastVisitedWorlds
   public collect(peer: Peer, uid: number) {
     const droppedItem = this.data.dropped?.items.find((i) => i.uid === uid);
     if (!droppedItem) return;
-    const item = this.base.items.metadata.items.get(droppedItem.id.toString());
+    const item = this.base.items.metadata.items.get(droppedItem.id as any);
     if ((item?.id ?? 0) <= 1) return;
 
     const itemInInv = peer.data.inventory.items.find(

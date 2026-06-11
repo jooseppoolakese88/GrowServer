@@ -25,8 +25,6 @@ export class ITextPacket {
   public async execute() {
     if (this.obj.action) return;
 
-    logger.debug(`[DEBUG] Receive text packet:\n ${this.obj}`);
-
     await this.checkVersion();
     if (this.obj.ltoken) await this.validateLtoken();
 
@@ -73,12 +71,11 @@ export class ITextPacket {
     );
     this.peer.disconnect();
   }
-
+  
   private async sendSuperMain() {
     // Check if platformID is "2" (macOS) and calculate appropriate items.dat hash
     const isMacOS = this.obj.platformID === "2";
     let itemsHash: string;
-
     if (isMacOS) {
       // Load and hash macOS items.dat at runtime
       const datDir = join(process.cwd(), ".cache", "growtopia", "dat");
@@ -93,11 +90,12 @@ export class ITextPacket {
     }
 
     return this.peer.send(
+      
       Variant.from(
         "OnSuperMainStartAcceptLogonHrdxs47254722215a",
         parseInt(itemsHash),
         this.base.config.web.cdnUrl, // https://github.com/StileDevs/growserver-cache
-        "growtopia/",
+        "growtopia/dat/",
         "cc.cz.madkite.freedom org.aqua.gg idv.aqua.bulldog com.cih.gamecih2 com.cih.gamecih com.cih.game_cih cn.maocai.gamekiller com.gmd.speedtime org.dax.attack com.x0.strai.frep com.x0.strai.free org.cheatengine.cegui org.sbtools.gamehack com.skgames.traffikrider org.sbtoods.gamehaca com.skype.ralder org.cheatengine.cegui.xx.multi1458919170111 com.prohiro.macro me.autotouch.autotouch com.cygery.repetitouch.free com.cygery.repetitouch.pro com.proziro.zacro com.slash.gamebuster",
         "proto=216|choosemusic=audio/mp3/about_theme.mp3|active_holiday=6|wing_week_day=0|ubi_week_day=0|server_tick=638729041|clash_active=0|drop_lavacheck_faster=1|isPayingUser=0|usingStoreNavigation=1|enableInventoryTab=1|bigBackpack=1|",
         0, // player_tribute.dat hash,
@@ -164,16 +162,16 @@ export class ITextPacket {
     try {
       const growId = this.obj.tankIDName as string;
       const password = this.obj.tankIDPass as string;
-
       const player = await this.base.database.players.get(growId.toLowerCase());
       if (!player) throw new Error("Player not found");
-
       const isValid = await bcrypt.compare(password, player.password);
       if (!isValid) throw new Error("Password are invalid");
-
+      
       const targetPeerId = this.base.cache.peers.find(
         (v) => v.userID === player.id,
       );
+
+      
       if (targetPeerId) {
         const targetPeer = new Peer(this.base, targetPeerId.netID);
         this.peer.send(
@@ -186,7 +184,6 @@ export class ITextPacket {
         targetPeer.leaveWorld();
         targetPeer.disconnect();
       }
-
       this.sendSuperMain();
       this.peer.send(Variant.from("SetHasGrowID", 1, player.name, password));
 

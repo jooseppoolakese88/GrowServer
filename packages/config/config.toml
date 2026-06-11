@@ -4,7 +4,7 @@ address = "127.0.0.1"
 port = 443
 ports = [17091]
 loginUrl = "login.growserver.app:8080"
-cdnUrl = "growserver-cache.netlify.app"
+cdnUrl = "http://127.0.0.1:8088/"
 
 [web.maintenance]
 enable = false
@@ -19,8 +19,8 @@ root = "./.cache/website"
 port = 8080
 
 [webFrontend.tls]
-key = "./.cache/ssl/_wildcard.growserver.app-key.pem"
-cert = "./.cache/ssl/_wildcard.growserver.app.pem"
+key = "./.cache/ssl/_wildcard.growserver.app+2-key.pem"
+cert = "./.cache/ssl/_wildcard.growserver.app+2.pem"
 
 [server]
 bypassVersionCheck = true

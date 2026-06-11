@@ -13,6 +13,7 @@ import { SwitcheROOEdit } from "./SwitcheROOEdit";
 import { RevokeLockAccess } from "./RevokeLockAccess";
 import { DisplayBlockEdit } from "./DisplayBlockEdit";
 import { DiceEdit } from "./DiceEdit";
+import { WrenchEnd } from "./WrenchEnd";
 
 export const DialogMap: Record<
   string,
@@ -34,4 +35,5 @@ export const DialogMap: Record<
   ["revoke_lock_access"]: RevokeLockAccess,
   ["displayblock_edit"]:  DisplayBlockEdit,
   ["dice_edit"]:          DiceEdit,
+  ["wrench_end"]:         WrenchEnd,
 };

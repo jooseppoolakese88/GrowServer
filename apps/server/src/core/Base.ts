@@ -24,6 +24,7 @@ import {
   ItemsData,
   ItemsInfo,
 } from "@growserver/types";
+import { ItemDefinition } from "grow-items";
 import { Database } from "@growserver/db";
 import { Peer } from "./Peer";
 import { World } from "./World";
@@ -34,6 +35,10 @@ import { ITEMS_DAT_FETCH_URL } from "@growserver/const";
 import { ItemsDat, ItemsDatMeta } from "grow-items";
 import { config as configServer } from "@growserver/config";
 import logger from "@growserver/logger";
+import { createServer } from "http";
+import { createReadStream, existsSync } from "fs";
+import { extname } from "path";
+
 
 __dirname = process.cwd();
 
@@ -88,10 +93,19 @@ export class Base {
           `Port ${port} is already in use. Please choose a different port.`,
         );
       }
+      
 
-      this.cdn = await this.getLatestCdn();
-      await downloadItemsDat(this.cdn.itemsDatName);
-      await downloadMacOSItemsDat(this.cdn.itemsDatName);
+      
+      this.cdn = {
+        version: "5.48",
+        uri: "http://127.0.0.1:8088",
+        itemsDatName: "items-v5.48.dat"
+      };
+      //this.cdn = await this.getLatestCdn();
+      if (!this.cdn.itemsDatName) {
+        this.cdn.itemsDatName = "items-v5.48.dat";
+        logger.warn("CDN unavailable, falling back to local items-v5.48.dat");
+      }
 
       logger.info(`Parsing ${this.cdn.itemsDatName}`);
       const datDir = join(__dirname, ".cache", "growtopia", "dat");
@@ -104,6 +118,8 @@ export class Base {
         metadata: {} as ItemsDatMeta,
         wiki:     [] as ItemsInfo[],
       };
+      
+      await this.startFileServer();
 
       logger.info(`Starting ENet server on port ${port}`);
 
@@ -118,11 +134,46 @@ export class Base {
       });
 
       await this.loadItems();
+      logger.info(`Total items loaded: ${this.items.metadata.items.size}`);
+      logger.info(`Item 8 exists: ${!!this.items.metadata.items.get(8)}`);
+      logger.info(`Item 2 exists: ${!!this.items.metadata.items.get(2)}`);
       await this.loadEvents();
     } catch (err) {
       logger.error(`Failed to start server: ${err}`);
       process.exit(1);
     }
+  }
+
+  private async startFileServer() {
+    const cacheDir = join(__dirname, ".cache");
+    
+
+    const server = createServer((req, res) => {
+      const filePath = join(cacheDir, req.url || "");
+
+      if (!existsSync(filePath)) {
+        logger.warn(`File server 404: ${req.url}`);
+        res.writeHead(404);
+        res.end("Not found");
+        return;
+      }
+
+
+      logger.info(`File server 200: ${req.url}`)
+      // Set correct mime type for .dat files
+      const ext = extname(filePath);
+      const mime: Record<string, string> = {
+        ".dat": "application/octet-stream",
+        ".html": "text/html",
+        ".js":  "application/javascript",
+      };
+
+      res.writeHead(200, { "Content-Type": mime[ext] || "application/octet-stream" });
+      createReadStream(filePath).pipe(res);
+    });
+
+    await new Promise<void>((resolve) => server.listen(8088, "127.0.0.1", resolve));
+    logger.info("File server running on http://127.0.0.1:8088");
   }
 
   private async loadEvents() {
@@ -185,6 +236,9 @@ export class Base {
       ),
     );
     await itemsDat.decode();
+    logger.info(`Items decoded: ${itemsDat.meta.items.size}`);
+    const firstItem = [...itemsDat.meta.items.entries()][0];
+    logger.info(`First item: ${JSON.stringify(firstItem)}`);
     // logger.info("Loading custom items...");
 
     // Disable temporarily (TODO: remaking this later)
@@ -287,9 +341,11 @@ export class Base {
     //   consola.error("Failed to load custom items: " + e);
     // }
 
-    await itemsDat.encode();
 
-    const bufData = Buffer.from(itemsDat.buffer.data);
+    const rawDat = await readFile(
+      join(__dirname, ".cache", "growtopia", "dat", this.cdn.itemsDatName)
+    );
+    const bufData = rawDat;
     const hash = RTTEX.hash(bufData);
     this.items.content = bufData;
     this.items.hash = `${hash}`;
@@ -316,7 +372,7 @@ export class Base {
 
       const data: CDNContent = {
         version:      cdnData.version,
-        uri:          cdnData.uri,
+        uri:          "http://127.0.0.1",
         itemsDatName: itemsDat.content,
       };
 
@@ -326,6 +382,10 @@ export class Base {
       return { version: "", uri: "", itemsDatName: "" };
     }
   }
+
+  public getItem(id: number): ItemDefinition | undefined {
+  return this.items.metadata.items.get(id as any);
+}
 
   public async saveAll(disconnectAll = false): Promise<boolean> {
     logger.info(

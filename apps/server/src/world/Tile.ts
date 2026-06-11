@@ -96,7 +96,7 @@ export class Tile {
     }
 
     const currTileItemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg as any,
     );
 
     if (
@@ -164,7 +164,7 @@ export class Tile {
     if (this.data.fg == 0 && this.data.bg == 0) return true;
 
     const itemMeta = this.base.items.metadata.items.get(
-      (this.data.fg ? this.data.fg : this.data.bg).toString(),
+      (this.data.fg ? this.data.fg : this.data.bg) as any,
     )!;
     if (peer.data.role != ROLE.DEVELOPER) {
       if (
@@ -283,7 +283,7 @@ export class Tile {
       const tile = new Tile(this.base, this.world, targetTile);
 
       const itemMeta = this.base.items.metadata.items.get(
-        (targetTile.fg ? targetTile.fg : targetTile.bg).toString(),
+        (targetTile.fg ? targetTile.fg : targetTile.bg) as any,
       );
       if (!itemMeta) continue;
 
@@ -347,7 +347,7 @@ export class Tile {
 
   public async onDrop(peer: Peer, destroyedItemID: number) {
     const itemMeta = this.base.items.metadata.items.get(
-      destroyedItemID.toString(),
+      destroyedItemID as any,
     );
     if (!itemMeta) return;
 
@@ -442,7 +442,7 @@ export class Tile {
    */
   public async onWrench(peer: Peer): Promise<boolean> {
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg as any,
     )!;
     if (
       !(await this.world.hasTilePermission(
@@ -531,7 +531,7 @@ export class Tile {
       tank!.data!.yPunch = this.data.y;
 
       const itemMeta = this.base.items.metadata.items.get(
-        (this.data.fg ? this.data.fg : this.data.bg).toString(),
+        (this.data.fg ? this.data.fg : this.data.bg) as any,
       )!;
 
       this.data.resetStateAt =
