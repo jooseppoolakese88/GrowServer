@@ -253,7 +253,7 @@ export class Base {
     //   for (const asset of itemsConf.assets) {
     //     if (!asset.id) throw "Item ID are required to replace specific item";
 
-    //     const item = itemsDat.meta.items.get(asset.id.toString())!;
+    //     const item = itemsDat.meta.items.get(asset.id)!;
 
     //     consola.start(`Modifying item ID: ${item.id} | ${item.name}`);
 

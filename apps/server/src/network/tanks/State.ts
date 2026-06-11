@@ -52,7 +52,7 @@ export class State {
     if (this.block === undefined) return;
 
     const itemMeta = this.base.items.metadata.items.get(
-      (this.block.fg || this.block.bg).toString(),
+      (this.block.fg || this.block.bg),
     )!;
 
     switch (itemMeta.type) {

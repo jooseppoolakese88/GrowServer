@@ -30,7 +30,7 @@ export class TileChangeReq {
       (this.tank.data?.yPunch as number) * this.world.data.width;
     this.block = this.world.data.blocks[this.pos];
     this.itemMeta = this.base.items.metadata.items.get(
-      (this.block.fg || this.block.bg).toString(),
+      (this.block.fg || this.block.bg),
     )!;
   }
 
@@ -59,7 +59,7 @@ export class TileChangeReq {
     // Others
     else {
       const itemMeta = this.base.items.metadata.items.get(
-        this.tank.data?.info.toString(),
+        this.tank.data?.info,
       );
 
       if (!itemMeta) return;

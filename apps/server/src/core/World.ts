@@ -150,19 +150,19 @@ ${peer.data.lastVisitedWorlds
       const world = await this.base.database.worlds.get(this.worldName);
       if (world) {
         logger.info(`Loading world from DB: ${this.worldName}, blocks length: ${world.blocks?.length}`);
-        logger.info(`First 100 chars of blocks: ${world.blocks?.toString().slice(0, 100)}`);
+        logger.info(`First 100 chars of blocks: ${world.blocks?.slice(0, 100)}`);
         this.data = {
           name:        world.name,
           width:       world.width,
           height:      world.height,
-          blocks:      world.blocks ? JSON.parse(world.blocks.toString()) : [],
+          blocks:      world.blocks ? JSON.parse(world.blocks) : [],
           // admins: [],
           playerCount: 0,
           jammers:     [],
           dropped:     world.dropped
-            ? JSON.parse(world.dropped.toString())
+            ? JSON.parse(world.dropped)
             : { uid: 0, items: [] },
-          // owner: world.owner ? JSON.parse(world.owner.toString()) : null,
+          // owner: world.owner ? JSON.parse(world.owner) : null,
           weather:        { id: world.weather_id || 41 },
           worldLockIndex: world.worldlock_index
             ? world.worldlock_index

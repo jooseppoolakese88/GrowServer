@@ -30,7 +30,7 @@ export class SignEdit {
       parseInt(this.action.tiley) * (this.world?.data.width as number);
     this.block = this.world?.data.blocks[this.pos] as TileData;
     this.itemMeta = this.base.items.metadata.items.get(
-      this.block.fg.toString(),
+      this.block.fg,
     )!;
   }
 

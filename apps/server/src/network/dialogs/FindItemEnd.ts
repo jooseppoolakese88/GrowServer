@@ -21,7 +21,7 @@ export class FindItemEnd {
     this.peer.send(
       Variant.from(
         "OnConsoleMessage",
-        `Added \`6${this.base.items.metadata.items.get(itemID.toString())?.name}\`\` to your inventory.`,
+        `Added \`6${this.base.items.metadata.items.get(itemID)?.name}\`\` to your inventory.`,
       ),
     );
     this.peer.inventory();

@@ -43,7 +43,7 @@ export class SwitcheROO extends Tile {
 
   public async onWrench(peer: Peer): Promise<boolean> {
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg,
     )!;
     if (
       await this.world.hasTilePermission(

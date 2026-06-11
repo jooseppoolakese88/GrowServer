@@ -71,7 +71,7 @@ export class Floodfill {
           this.data.blocks[neighbour.x + neighbour.y * this.data.width];
 
         const meta = this.data.base.items.metadata.items.get(
-          (block.fg || block.bg).toString(),
+          (block.fg || block.bg),
         )!;
         if (
           this.totalNodes.find(
@@ -113,7 +113,7 @@ export class Floodfill {
     //         this.data.blocks[neighbour.x + neighbour.y * this.data.width];
 
     //       const meta =
-    //         this.data.base.items.metadata.items.get((block.fg || block.bg).toString())!;
+    //         this.data.base.items.metadata.items.get((block.fg || block.bg))!;
     //       if (
     //         this.totalNodes.find(
     //           (n) => n.x === neighbour.x && n.y === neighbour.y

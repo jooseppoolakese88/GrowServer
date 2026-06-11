@@ -504,7 +504,7 @@ export class Peer extends OldPeer<PeerData> {
         this.data.lastCheckpoint.y * (world?.data.width as number);
       const block = world?.data.blocks[pos];
       const itemMeta = this.base.items.metadata.items.get(
-        ((block?.fg as number).toString || (block?.bg as number)).toString(),
+        ((block?.fg as number) || (block?.bg as number)),
       );
 
       if (itemMeta && itemMeta.type === ActionTypes.CHECKPOINT) {
@@ -692,7 +692,7 @@ export class Peer extends OldPeer<PeerData> {
           (i) => i.id !== id,
         );
         if (
-          this.base.items.metadata.items.get(id.toString())!.type ===
+          this.base.items.metadata.items.get(id)!.type ===
           ActionTypes.CLOTHES
         ) {
           this.unequipClothes(id);
@@ -781,7 +781,7 @@ export class Peer extends OldPeer<PeerData> {
     if (Object.values(this.data.clothing).includes(itemID))
       this.unequipClothes(itemID);
     else {
-      const item = this.base.items.metadata.items.get(itemID.toString())!;
+      const item = this.base.items.metadata.items.get(itemID)!;
       if (!isAnces(item)) {
         const clothKey = CLOTH_MAP[item?.bodyPartType as ClothTypes];
 
@@ -809,7 +809,7 @@ export class Peer extends OldPeer<PeerData> {
   }
 
   public unequipClothes(itemID: number) {
-    const item = this.base.items.metadata.items.get(itemID.toString())!;
+    const item = this.base.items.metadata.items.get(itemID)!;
 
     let unequiped: boolean = false;
 
@@ -1014,7 +1014,7 @@ export class Peer extends OldPeer<PeerData> {
     const inventoryItem = this.data.inventory.items.find(
       (invItem) => invItem.id == itemID,
     );
-    const itemMeta = this.base.items.metadata.items.get(itemID.toString())!;
+    const itemMeta = this.base.items.metadata.items.get(itemID)!;
 
     if (
       (inventoryItem && inventoryItem.amount >= itemMeta!.maxAmount!) ||

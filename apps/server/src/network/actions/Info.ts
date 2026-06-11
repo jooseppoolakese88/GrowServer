@@ -46,7 +46,7 @@ export class Info {
     }
 
     // Check if item has combine property via metadata instead
-    const itemMeta = this.base.items.metadata.items.get(item.id.toString());
+    const itemMeta = this.base.items.metadata.items.get(item.id);
     const hasTransmutation = itemMeta && itemMeta.actionType === 34; // ActionType 34 is commonly used for transmutable items
 
     if (hasTransmutation) {

@@ -44,7 +44,7 @@ export class DisplayBlockEdit {
     }
 
     const itemMeta = this.base.items.metadata.items.get(
-      this.block.displayBlock!.displayedItem.toString(),
+      this.block.displayBlock!.displayedItem,
     )!;
     const dBlock = tileFrom(
       this.base,

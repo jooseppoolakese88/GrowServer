@@ -30,7 +30,7 @@ export class WeatherTile extends Tile {
     }
 
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg,
     );
 
     // if the block still has any damage, do not toggle.

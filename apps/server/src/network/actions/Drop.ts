@@ -23,7 +23,7 @@ export class Drop {
       return;
     }
 
-    const item = this.base.items.metadata.items.get(itemID.toString());
+    const item = this.base.items.metadata.items.get(itemID);
 
     const peerItem = this.peer.data.inventory.items.find(
       (v) => v.id === itemID,

@@ -29,7 +29,7 @@ export class ConfirmClearWorld {
       for (let i = 0; i < this.world.data.blocks.length; i++) {
         const b = this.world.data.blocks[i];
         const itemMeta = this.base.items.metadata.items.get(
-          (b.fg || b.bg).toString(),
+          (b.fg || b.bg),
         )!;
         const mLock = LOCKS.find((l) => l.id === itemMeta.id);
 

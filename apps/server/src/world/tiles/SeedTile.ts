@@ -60,7 +60,7 @@ export class SeedTile extends Tile {
     }
 
     const currentSeedMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg,
     )!;
 
     let spliceSuccessful = false;
@@ -73,7 +73,7 @@ export class SeedTile extends Tile {
             itemWiki.recipe.splice.includes(this.data.fg! - 1)
           ) {
             const spliceResultSeedMeta = this.base.items.metadata.items.get(
-              (itemWiki.id! + 1).toString(),
+              (itemWiki.id! + 1),
             )!;
             spliceSuccessful = true;
             this.initializeTreeData(spliceResultSeedMeta);
@@ -118,7 +118,7 @@ export class SeedTile extends Tile {
       ))
     ) {
       const itemMeta = this.base.items.metadata.items.get(
-        this.data.fg.toString(),
+        this.data.fg,
       )!;
       this.dropHarvestGoodies(peer, itemMeta!);
 

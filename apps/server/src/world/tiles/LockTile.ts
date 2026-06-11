@@ -129,7 +129,7 @@ export class LockTile extends Tile {
 
   public async onWrench(peer: Peer): Promise<boolean> {
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg,
     )!;
     // the one being wrenched is the lock itself.
     if (!(await super.onWrench(peer))) {
@@ -274,7 +274,7 @@ export class LockTile extends Tile {
     await super.onPunchFail(peer);
 
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg,
     )!;
     const ownerData = await this.base.database.players.getByUID(
       this.data.lock!.ownerUserID,

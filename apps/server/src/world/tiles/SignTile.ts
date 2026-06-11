@@ -50,7 +50,7 @@ export class SignTile extends Tile {
     }
 
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.fg.toString(),
+      this.data.fg,
     )!;
     const dialog = new DialogBuilder()
       .defaultColor()

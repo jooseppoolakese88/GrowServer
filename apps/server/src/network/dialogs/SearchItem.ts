@@ -32,7 +32,7 @@ export class SearchItem {
     }
 
     // Check if valid item
-    const item = this.base.items.metadata.items.get(itemID.toString());
+    const item = this.base.items.metadata.items.get(itemID);
     if (!item) {
       this.peer.send(
         Variant.from("OnConsoleMessage", "`4Error: Invalid item ID.``"),

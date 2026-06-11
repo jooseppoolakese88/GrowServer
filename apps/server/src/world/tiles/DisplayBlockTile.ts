@@ -43,7 +43,7 @@ export class DisplayBlockTile extends Tile {
 
     if (this.data.displayBlock!.displayedItem) {
       const itemMeta = this.base.items.metadata.items.get(
-        this.data.displayBlock!.displayedItem.toString(),
+        this.data.displayBlock!.displayedItem,
       );
 
       // TODO: add some item animation going to the player
@@ -121,7 +121,7 @@ export class DisplayBlockTile extends Tile {
     }
 
     const itemMeta = this.base.items.metadata.items.get(
-      this.data.displayBlock?.displayedItem.toString(),
+      this.data.displayBlock?.displayedItem,
     )!;
     const owner = this.world.getTileOwnerUID(this.data);
 

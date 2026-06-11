@@ -23,7 +23,7 @@ export class ItemActiveReq {
     const isItemExist = (id: number) =>
       this.peer.data.inventory.items.find((i) => i.id === id);
     const item = this.base.items.metadata.items.get(
-      this.tank.data!.info!.toString(),
+      this.tank.data!.info!,
     );
 
     if (!item) return;
